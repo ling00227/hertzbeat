@@ -64,22 +64,17 @@ sureness:
 
 ---
 spring:
-  config:
-    activate:
-      on-profile: prod
-
   datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
+    driver-class-name: org.postgresql.Driver
+    username: root
     password: 123456
-    url: jdbc:h2:./data/hertzbeat;MODE=MYSQL
+    url: jdbc:postgresql://127.0.0.1:5432/hertzbeat
     hikari:
       max-lifetime: 120000
-
   jpa:
     show-sql: false
-    database-platform: org.eclipse.persistence.platform.database.MySQLPlatform
-    database: h2
+    database-platform: org.eclipse.persistence.platform.database.PostgreSQLPlatform
+    database: postgresql
     properties:
       eclipselink:
         logging:
@@ -125,7 +120,7 @@ warehouse:
   store:
     # store history metrics data, enable only one below
     jpa:
-      enabled: true
+      enabled: false
       # The maximum retention time for history records, after which records will be deleted
       expire-time: 1h
       # The maximum number of history records retained, if this number is exceeded, half of the data in this configuration item will be deleted
@@ -133,7 +128,7 @@ warehouse:
       max-history-record-num: 6000
     victoria-metrics:
       # Standalone mode toggle — must be set to false when using cluster mode
-      enabled: false
+      enabled: true
       url: http://localhost:8428
       username: root
       password: root

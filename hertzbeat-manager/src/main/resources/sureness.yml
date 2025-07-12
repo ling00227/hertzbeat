@@ -114,7 +114,7 @@ excludedResource:
 # eg: lili has role [guest], plain password is lili, salt is 123, salted password is 1A676730B0C7F54654B0E09184448289
 account:
   - appId: admin
-    credential: hertzbeat
+    credential: MOling980227@
     role: [admin]
   - appId: tom
     credential: hertzbeat

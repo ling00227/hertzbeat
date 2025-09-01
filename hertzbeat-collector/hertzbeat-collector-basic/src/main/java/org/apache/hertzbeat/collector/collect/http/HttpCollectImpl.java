@@ -604,6 +604,18 @@ public class HttpCollectImpl extends AbstractCollect {
                     }
                 }
                 builder.addValueRow(valueRowBuilder.build());
+            } else if (objectValue instanceof Number numberValue) {
+                CollectRep.ValueRow.Builder valueRowBuilder = CollectRep.ValueRow.newBuilder();
+                for (String alias : aliasFields) {
+                    if (NetworkConstants.RESPONSE_TIME.equalsIgnoreCase(alias)) {
+                        valueRowBuilder.addColumn(responseTime.toString());
+                    } else if (CollectorConstants.KEYWORD.equalsIgnoreCase(alias)) {
+                        valueRowBuilder.addColumn(Integer.toString(keywordNum));
+                    } else {
+                        valueRowBuilder.addColumn(numberValue.toString());
+                    }
+                }
+                builder.addValueRow(valueRowBuilder.build());
             }
         }
     }
@@ -628,11 +640,13 @@ public class HttpCollectImpl extends AbstractCollect {
                         .collect(Collectors.toMap(MetricFamily.Label::getName, MetricFamily.Label::getValue));
                 CollectRep.ValueRow.Builder valueRowBuilder = CollectRep.ValueRow.newBuilder();
                 for (String aliasField : aliasFields) {
-                    if ("value".equals(aliasField)) {
+                    String columnValue = labelMap.get(aliasField);
+                    if (columnValue != null) {
+                        valueRowBuilder.addColumn(columnValue);
+                    } else if (CommonConstants.PROM_VALUE.equals(aliasField) || CommonConstants.PROM_METRIC_VALUE.equals(aliasField)) {
                         valueRowBuilder.addColumn(String.valueOf(metric.getValue()));
                     } else {
-                        String columnValue = labelMap.get(aliasField);
-                        valueRowBuilder.addColumn(columnValue == null ? CommonConstants.NULL_VALUE : columnValue);
+                        valueRowBuilder.addColumn(CommonConstants.NULL_VALUE);
                     }
                 }
                 builder.addValueRow(valueRowBuilder.build());

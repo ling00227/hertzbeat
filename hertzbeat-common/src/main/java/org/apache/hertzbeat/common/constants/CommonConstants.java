@@ -198,6 +198,11 @@ public interface CommonConstants {
     String PROM_VALUE = "value";
 
     /**
+     * prometheus metric value alias
+     */
+    String PROM_METRIC_VALUE = "metric_value";
+
+    /**
      * Parameter Type Number
      */
     byte PARAM_TYPE_NUMBER = 0;
@@ -372,4 +377,9 @@ public interface CommonConstants {
      * status page incident state resolved
      */
     byte MONITOR_TYPE_DISCOVERY_AUTO_CREATE = 2;
+
+    /**
+     * JEXL custom function `json`
+     */
+    String JEXL_CUSTOM_JSON_FUNCTION = "json";
 }
